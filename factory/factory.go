@@ -69,7 +69,15 @@ func (f *RestDiscoverFactory) getBase() string {
 }
 
 func (f *RestDiscoverFactory) Invoke(ctx context.Context, method string, path string, data interface{}, resp interface{}) error {
-	result, err := f.service.Do(ctx, strings.ToUpper(method), fmt.Sprintf("%s%s%s", f.protocol, f.getBase(), path), data)
+	var (
+		base   = f.getBase()
+		result *http.Response
+		err    error
+	)
+	if "" == base {
+		return errors.New("base can't nil")
+	}
+	result, err = f.service.Do(ctx, strings.ToUpper(method), fmt.Sprintf("%s%s%s", f.protocol, f.getBase(), path), data)
 	if nil != err {
 		return err
 	}
