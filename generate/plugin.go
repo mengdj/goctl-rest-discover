@@ -3,6 +3,7 @@ package generate
 import (
 	_ "embed"
 	"errors"
+	"os"
 	"path"
 
 	"github.com/zeromicro/go-zero/tools/goctl/api/spec"
@@ -38,5 +39,9 @@ func Do(plugin *plugin.Plugin) error {
 			})
 		}
 	}
-	return util.With("plugin").Parse(clientTpl).GoFmt(true).SaveTo(client, path.Join(plugin.Dir, "client", "client.go"), true)
+	dir := path.Join(plugin.Dir, "client")
+	if err := os.MkdirAll(dir, os.ModeDir|os.ModePerm); nil != err {
+		return err
+	}
+	return util.With("plugin").Parse(clientTpl).GoFmt(true).SaveTo(client, path.Join(dir, "client.go"), true)
 }

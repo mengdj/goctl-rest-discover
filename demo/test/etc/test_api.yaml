@@ -1,0 +1,15 @@
+Name: test_api
+Host: 0.0.0.0
+Port: 9999
+Timeout: 15000
+Mode: test
+
+HelloDiscoverConf:
+  Name: exa_api
+  Port: 0
+  Etcd:
+    Hosts:
+      - 127.0.0.1:2379
+    Key: exa_api
+    InsecureSkipVerify: true
+  TLS: false

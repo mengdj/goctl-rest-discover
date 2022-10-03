@@ -15,13 +15,13 @@ import (
 )
 
 type RestDiscoverFactory struct {
-	config   conf.DiscoverConf
+	config   conf.DiscoverClientConf
 	protocol string
 	base     []string
 	service  httpc.Service
 }
 
-func NewRestDiscoverFactory(c conf.DiscoverConf) *RestDiscoverFactory {
+func NewRestDiscoverFactory(c conf.DiscoverClientConf) *RestDiscoverFactory {
 	ret := &RestDiscoverFactory{
 		protocol: "http://",
 		config:   c,
