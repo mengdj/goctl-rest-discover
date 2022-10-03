@@ -7,6 +7,7 @@ import (
 	"math/rand"
 	"net/http"
 	"strings"
+	"sync"
 
 	"github.com/mengdj/goctl-rest-discover/conf"
 	"github.com/zeromicro/go-zero/core/discov"
@@ -21,6 +22,7 @@ type (
 		protocol string
 		base     []string
 		service  httpc.Service
+		rwMutex  sync.RWMutex
 	}
 )
 
@@ -51,6 +53,10 @@ func NewRestDiscoverFactory(c conf.DiscoverClientConf, opts ...RestDiscoverFacto
 		}
 		//get base address
 		update := func() {
+			ret.rwMutex.Lock()
+			defer func() {
+				ret.rwMutex.Unlock()
+			}()
 			if values := sub.Values(); len(values) > 0 {
 				ret.base = values
 			}
@@ -62,6 +68,10 @@ func NewRestDiscoverFactory(c conf.DiscoverClientConf, opts ...RestDiscoverFacto
 }
 
 func (f *RestDiscoverFactory) getBase() string {
+	f.rwMutex.RLock()
+	defer func() {
+		f.rwMutex.RUnlock()
+	}()
 	if len(f.base) > 0 {
 		rand.Shuffle(len(f.base), func(i, j int) {
 			f.base[i], f.base[j] = f.base[j], f.base[i]
