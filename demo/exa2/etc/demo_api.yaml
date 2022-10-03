@@ -1,6 +1,6 @@
 Name: exa_api_2
 Host: 0.0.0.0
-Port: 8888
+Port: 7001
 Timeout: 15000
 Mode: test
 Etcd:

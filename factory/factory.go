@@ -14,6 +14,9 @@ import (
 	"github.com/zeromicro/go-zero/rest/httpc"
 )
 
+func init() {
+}
+
 type RestDiscoverFactory struct {
 	config   conf.DiscoverClientConf
 	protocol string
@@ -56,10 +59,13 @@ func NewRestDiscoverFactory(c conf.DiscoverClientConf) *RestDiscoverFactory {
 }
 
 func (f *RestDiscoverFactory) getBase() string {
-	rand.Shuffle(len(f.base), func(i, j int) {
-		f.base[i], f.base[j] = f.base[j], f.base[i]
-	})
-	return f.base[0]
+	if len(f.base) > 0 {
+		rand.Shuffle(len(f.base), func(i, j int) {
+			f.base[i], f.base[j] = f.base[j], f.base[i]
+		})
+		return f.base[0]
+	}
+	return ""
 }
 
 func (f *RestDiscoverFactory) Invoke(ctx context.Context, method string, path string, data interface{}, resp interface{}) error {
