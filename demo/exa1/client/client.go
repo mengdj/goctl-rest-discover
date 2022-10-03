@@ -10,21 +10,18 @@ import (
 type (
 	Response struct {
 		Code uint32 `json:"code"` //
-
-		Msg string `json:"msg"` //
-
+		Msg  string `json:"msg"`  //
 	}
 
 	HelloRequest struct {
 		Msg string `json:"msg"` //
-
 	}
 
+	// Client
 	Client interface {
 
 		// Hello
 		Hello(context.Context, *HelloRequest) (*Response, error)
-
 		Invoke(context.Context, string, string, interface{}, interface{}) error
 	}
 	clientFactory struct {
@@ -43,7 +40,7 @@ func (cf *clientFactory) Invoke(ctx context.Context, method string, path string,
 	return cf.RestDiscoverFactory.Invoke(ctx, method, path, entity, resp)
 }
 
-// Hello
+// Hello "xx"
 func (cf *clientFactory) Hello(ctx context.Context, entity *HelloRequest) (resp *Response, err error) {
 	resp = new(Response)
 	err = cf.Invoke(ctx, "post", "/api/v1/app/demo/hello", entity, resp)

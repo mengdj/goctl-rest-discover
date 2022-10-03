@@ -7,28 +7,30 @@ import(
 )
 type(
     {{range .Type}}
-    {{range .Docs}}{{.}}
-    {{end}}
+    {{range .Docs -}}{{.}}
+    {{- end}}
     {{.RawName}} struct{
     {{if .Members}}
-    {{range .Members}}
+    {{range .Members -}}
         {{if .IsInline}}
-            {{.Type.RawName}} //{{if .Docs}} {{range .Docs}}{{.}}{{end}}{{end}}
+            {{.Type.RawName}} //{{if .Docs}} {{range .Docs}}{{.}}{{- end}}{{- end}}
         {{else}}
-            {{.Name}} {{.Type.RawName}} {{if .Tag}}{{.Tag}}{{end}} //{{if .Docs}}{{range .Docs}}{{.}}{{end}}{{end}}
-        {{end}}
-    {{end}}
-    {{end}}
+            {{.Name}} {{.Type.RawName}} {{if .Tag}}{{.Tag}}{{- end}} //{{if .Docs}}{{range .Docs}}{{.}}{{- end}}{{- end}}
+        {{- end}}
+    {{- end}}
+    {{- end}}
     }
-    {{end}}
+    {{- end}}
+
+    // Client
     Client interface{
-        {{range .Route}}
-        {{range .Comment}}
+        {{range .Route -}}
+        {{range .Comment -}}
         // {{.}}
-        {{end}}
+        {{- end}}
         // {{.Handler}}
         {{.Handler}}(context.Context,*{{.RequestName}})(*{{.ResponseName}},error)
-        {{end}}
+        {{- end}}
         Invoke(context.Context,string,string,interface{},interface{}) error
     }
     clientFactory struct{
@@ -50,7 +52,7 @@ func (cf *clientFactory) Invoke(ctx context.Context,method string,path string,en
 {{range .Route}}
 {{range .Comment}}
 // {{.}}
-{{end}}
+{{- end}}
 // {{.Handler}} {{.Text}}
 func (cf *clientFactory) {{.Handler}}(ctx context.Context,entity *{{.RequestName}})(resp *{{.ResponseName}},err error){
     resp=new({{.ResponseName}})
@@ -60,4 +62,4 @@ func (cf *clientFactory) {{.Handler}}(ctx context.Context,entity *{{.RequestName
     }
     return resp,nil
 }
-{{end}}
+{{- end}}

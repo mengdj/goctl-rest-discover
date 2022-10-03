@@ -23,6 +23,7 @@ type (
 	timeout: 30s
 )
 service demo_api {
+	@doc "xx"
 	@handler Hello
 	post /api/v1/app/demo/hello (HelloRequest) returns (Response)
 }
