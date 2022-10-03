@@ -14,21 +14,24 @@ import (
 	"github.com/zeromicro/go-zero/rest/httpc"
 )
 
-func init() {
-}
+type (
+	RestDiscoverFactoryOption func(*RestDiscoverFactory)
+	RestDiscoverFactory       struct {
+		config   conf.DiscoverClientConf
+		protocol string
+		base     []string
+		service  httpc.Service
+	}
+)
 
-type RestDiscoverFactory struct {
-	config   conf.DiscoverClientConf
-	protocol string
-	base     []string
-	service  httpc.Service
-}
-
-func NewRestDiscoverFactory(c conf.DiscoverClientConf) *RestDiscoverFactory {
+func NewRestDiscoverFactory(c conf.DiscoverClientConf, opts ...RestDiscoverFactoryOption) *RestDiscoverFactory {
 	ret := &RestDiscoverFactory{
 		protocol: "http://",
 		config:   c,
 		service:  httpc.NewService(c.Etcd.Key),
+	}
+	for _, opt := range opts {
+		opt(ret)
 	}
 	//https
 	if c.TLS {
