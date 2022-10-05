@@ -2,6 +2,7 @@ package test
 
 import (
 	"context"
+	"fmt"
 
 	"github.com/mengdj/goctl-rest-discover/demo/exa1/client"
 	"github.com/mengdj/goctl-rest-discover/demo/test/internal/svc"
@@ -34,7 +35,7 @@ func (l *HelloLogic) Hello(req *types.HelloRequest) (*types.Response, error) {
 		resp *client.Response
 	)
 	resp, err = client.MustClient(l.svcCtx.Config.HelloDiscoverConf).Hello(l.ctx, &client.HelloRequest{
-		Msg: req.Msg,
+		Msg: fmt.Sprintf("recive id:%d", req.ID),
 	})
 	if nil != err {
 		ret.Code = 1

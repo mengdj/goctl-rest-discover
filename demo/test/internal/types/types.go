@@ -7,5 +7,5 @@ type Response struct {
 }
 
 type HelloRequest struct {
-	Msg string `json:"msg,optional" path:"msg"`
+	ID uint64 `json:"id,optional" path:"id"`
 }

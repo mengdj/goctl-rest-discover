@@ -16,7 +16,7 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 		[]rest.Route{
 			{
 				Method:  http.MethodGet,
-				Path:    "/api/v1/app/test/hello/:msg",
+				Path:    "/api/v1/app/test/hello/:id",
 				Handler: test.HelloHandler(serverCtx),
 			},
 		}, rest.WithTimeout(30000*time.Millisecond),
