@@ -33,7 +33,7 @@ func (l *HelloLogic) Hello() (*types.Response, error) {
 		err  error = nil
 		resp *client.Response
 	)
-	resp, err = l.svcCtx.HelloClient.Hello(l.ctx, &client.HelloRequest{
+	resp, err = client.MustClient(l.svcCtx.Config.HelloDiscoverConf).Hello(l.ctx, &client.HelloRequest{
 		Msg: "hello,rest",
 	})
 	if nil != err {
