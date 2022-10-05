@@ -9,12 +9,14 @@ info(
 )
 
 type (
+	//aa
 	Response {
-		Code uint32 `json:"code"`
+		Code uint32 `json:"code"` //cc
 		Msg  string `json:"msg"`
 	}
+	//xxx
 	HelloRequest {
-		Msg string `json:"msg"`
+		Msg string `json:"msg"` //回显消息
 	}
 )
 

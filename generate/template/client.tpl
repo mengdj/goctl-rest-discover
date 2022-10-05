@@ -7,15 +7,19 @@ import(
 )
 type(
     {{range .Type}}
-    {{range .Docs -}}{{.}}
+    {{range .Docs -}}
+    {{.}}
     {{- end}}
     {{.RawName}} struct{
     {{if .Members}}
+    {{if .Docs}} {{range .Docs}}
+    {{.}}
+    {{- end}}{{- end}}
     {{range .Members -}}
         {{if .IsInline}}
-            {{.Type.RawName}} //{{if .Docs}} {{range .Docs}}{{.}}{{- end}}{{- end}}
+            {{.Type.RawName}} {{if .Comment}}{{.Comment}}{{- end}}
         {{else}}
-            {{.Name}} {{.Type.RawName}} {{if .Tag}}{{.Tag}}{{- end}} //{{if .Docs}}{{range .Docs}}{{.}}{{- end}}{{- end}}
+            {{.Name}} {{.Type.RawName}} {{if .Tag}}{{.Tag}}{{- end}} {{if .Comment}}{{.Comment}}{{- end}}
         {{- end}}
     {{- end}}
     {{- end}}
@@ -39,7 +43,7 @@ type(
 )
 
 // MustClient
-func MustClient(c conf.DiscoverConf) Client{
+func MustClient(c conf.DiscoverClientConf) Client{
     return &clientFactory{
         RestDiscoverFactory:factory.NewRestDiscoverFactory(c),
     }

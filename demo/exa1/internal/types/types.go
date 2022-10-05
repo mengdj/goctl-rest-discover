@@ -2,10 +2,10 @@
 package types
 
 type Response struct {
-	Code uint32 `json:"code"`
+	Code uint32 `json:"code"` //cc
 	Msg  string `json:"msg"`
 }
 
 type HelloRequest struct {
-	Msg string `json:"msg"`
+	Msg string `json:"msg"` //回显消息
 }
