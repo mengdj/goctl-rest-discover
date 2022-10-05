@@ -3,7 +3,7 @@ package test
 import (
 	"context"
 
-	"github.com/mengdj/goctl-rest-discover/demo/exa2/client"
+	"github.com/mengdj/goctl-rest-discover/demo/exa1/client"
 	"github.com/mengdj/goctl-rest-discover/demo/test/internal/svc"
 	"github.com/mengdj/goctl-rest-discover/demo/test/internal/types"
 
@@ -24,7 +24,7 @@ func NewHelloLogic(ctx context.Context, svcCtx *svc.ServiceContext) *HelloLogic 
 	}
 }
 
-func (l *HelloLogic) Hello() (*types.Response, error) {
+func (l *HelloLogic) Hello(req *types.HelloRequest) (*types.Response, error) {
 	var (
 		ret = &types.Response{
 			Code: 0,
@@ -34,7 +34,7 @@ func (l *HelloLogic) Hello() (*types.Response, error) {
 		resp *client.Response
 	)
 	resp, err = client.MustClient(l.svcCtx.Config.HelloDiscoverConf).Hello(l.ctx, &client.HelloRequest{
-		Msg: "hello,rest",
+		Msg: req.Msg,
 	})
 	if nil != err {
 		ret.Code = 1

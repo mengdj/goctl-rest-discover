@@ -43,7 +43,7 @@ type(
 )
 
 // MustClient
-func MustClient(c conf.DiscoverClientConf) Client{
+func MustClient(c conf.DiscoverConf) Client{
     return &clientFactory{
         RestDiscoverFactory:factory.NewRestDiscoverFactory(c),
     }
