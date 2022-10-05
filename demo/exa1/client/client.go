@@ -8,13 +8,21 @@ import (
 )
 
 type (
-	Response struct {
-		Code uint32 `json:"code"` //
-		Msg  string `json:"msg"`  //
-	}
 
+	//aa
+	Response struct {
+
+		//aa
+
+		Code uint32 `json:"code"` //cc
+		Msg  string `json:"msg"`
+	}
+	//xxx
 	HelloRequest struct {
-		Msg string `json:"msg"` //
+
+		//xxx
+
+		Msg string `json:"msg"` //回显消息
 	}
 
 	// Client
@@ -30,7 +38,7 @@ type (
 )
 
 // MustClient
-func MustClient(c conf.DiscoverConf) Client {
+func MustClient(c conf.DiscoverClientConf) Client {
 	return &clientFactory{
 		RestDiscoverFactory: factory.NewRestDiscoverFactory(c),
 	}
