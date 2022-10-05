@@ -29,7 +29,7 @@ type(
         // {{.}}
         {{- end}}
         // {{.Handler}}
-        {{.Handler}}(context.Context,*{{.RequestName}})(*{{.ResponseName}},error)
+        {{.Handler}}(context.Context{{if .RequestName}},*{{.RequestName}}{{- end}})(*{{.ResponseName}},error)
         {{- end}}
         Invoke(context.Context,string,string,interface{},interface{}) error
     }
@@ -39,7 +39,7 @@ type(
 )
 
 // MustClient
-func MustClient(c conf.DiscoverClientConf) Client{
+func MustClient(c conf.DiscoverConf) Client{
     return &clientFactory{
         RestDiscoverFactory:factory.NewRestDiscoverFactory(c),
     }
@@ -54,9 +54,9 @@ func (cf *clientFactory) Invoke(ctx context.Context,method string,path string,en
 // {{.}}
 {{- end}}
 // {{.Handler}} {{.Text}}
-func (cf *clientFactory) {{.Handler}}(ctx context.Context,entity *{{.RequestName}})(resp *{{.ResponseName}},err error){
+func (cf *clientFactory) {{.Handler}}(ctx context.Context{{if .RequestName}},entity *{{.RequestName}}{{- end}})(resp *{{.ResponseName}},err error){
     resp=new({{.ResponseName}})
-    err=cf.Invoke(ctx,"{{.Method}}","{{.Path}}",entity,resp)
+    err=cf.Invoke(ctx,"{{.Method}}","{{.Path}}",{{if .RequestName}}entity{{else}}nil{{- end}},resp)
     if nil!=err{
         return nil,err
     }
